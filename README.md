@@ -1,2 +1,4 @@
 
-Scripts used to determine biosynthetic gene clusters from metagenomic data.
+## WHAT: Determining biosynthetic gene clusters from metagenomic DNA sequencing data.
+
+
