@@ -1,28 +1,29 @@
 '''
-    Filter out taxonomies from combined samples to those with 'species' field available, aka those with possible
+    Sort abundance profile by decreasing taxonomic frequency/abundance and drop taxa with no species annotation, via 
+    filtering out taxonomies from combined samples to those with 'species' field available, aka those with possible
     refseq genomes from NCBI.
+
 '''
-# filter taxids to only species level 
+ 
 import pandas as pd 
-bacteria = pd.read_csv("CanolaClassificationTable.csv", index_col=0) 
 
 #drop any classifications without refseq for species-specificity
-bacteria = bacteria.dropna(subset=["species"])
+species_only = pd.read_csv("CanolaClassificationTable.csv", index_col=0).dropna(subset=["species"])
 
-taxids = bacteria.index
-print(taxids)
-species = bacteria["species"]
-
-print("Index\n", species.index)
-sorted_classification = pd.read_csv("sorted_classification.csv", index_col = 0)
-sorted_classification.insert(0,'species', species)
-
-sorted_classification = sorted_classification[sorted_classification.index.isin(taxids)]
-# drop zeros
-sorted_classification = sorted_classification.loc[sorted_classification['sum'] != 0]
+taxids = species_only.index
+species = species_only["species"]
 
 
-print(type(sorted_classification))
-sorted_classification.to_csv("sorted_refseq_genomes.csv", index=True) 
+abundance_profile = pd.read_csv("abundance_profile_fixed.csv", index_col=0)
+abundace_profile = abundance_profile.replace(np.nan, 0)
+abundance_profile['sum'] = abundance_profile.sum(axis=1)
+
+sorted_abundance_profile = abundance_profile.sort_values(by='sum', ascending = False)
+
+# add species annotations and select for certain taxIDs
+sorted_abundance_profile.insert(0,'species', species)
+sorted_abundance_profile = sorted_abundance_profile[sorted_abundance_profile.index.isin(taxids)]
+
+sorted_abundance_profile.to_csv("sorted_species_abundance.csv", index=True) 
 
 
