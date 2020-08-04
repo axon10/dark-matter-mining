@@ -1,3 +1,6 @@
+'''
+  An example in-silico simulator, given a single (or multiple) metagenomic read.
+'''
 from nltk import ngrams
 from Bio import SeqIO
 from Bio.SeqRecord import SeqRecord

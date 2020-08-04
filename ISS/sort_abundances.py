@@ -1,3 +1,6 @@
+'''
+    Sorted the taxonomies in a metagenomic abundance profile based on the frequency of occurence/abundance.
+'''
 import pandas as pd
 
 df = pd.read_csv("abundance_profile_fixed.csv", index_col=0)

@@ -1,4 +1,7 @@
+'''
+Pandas example regarding merging dataframes with different indices.
 
+'''
 import pandas as pd
 
 age = pd.Series([10,12,13], index=list('ABC'))

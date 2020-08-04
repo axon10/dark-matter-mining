@@ -1,3 +1,7 @@
+'''
+    Filter out taxonomies from combined samples to those with 'species' field available, aka those with possible
+    refseq genomes from NCBI.
+'''
 # filter taxids to only species level 
 import pandas as pd 
 bacteria = pd.read_csv("CanolaClassificationTable.csv", index_col=0) 

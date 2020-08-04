@@ -1,14 +1,20 @@
+'''
+
+Create an abundance profile in CSV format from a combination of metagenomic DNA samples.
+
+'''
 import pandas as pd
 from tqdm import tqdm
 from glob import glob
+
 classifications = {}
+
 for kraken_file in tqdm(glob("/mnt/storage/grid/var/metagenomic_samples/Testing2/combined/*")):
     # read file
     this_df = pd.read_csv(kraken_file, sep="\t", header=None)
-    # split 2nd column and make a new one
-    
+    # split 2nd column and make a new one 
     this_df['sample_id'] = this_df[1].apply(lambda x: x.split('.')[0])
-    # for each unique sample
+   
     for sample in this_df['sample_id'].unique():
         # select rows where sample ID matches, aka subset DF to sample
         sample_df = this_df[this_df['sample_id'] == sample]
