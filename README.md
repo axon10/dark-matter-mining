@@ -1,2 +1,2 @@
 
-Scripts used to determine biosynthetic gene clusters from metagenomic data.
+## Goal of project: Determining biosynthetic gene clusters from metagenomic DNA sequencing data.
