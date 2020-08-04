@@ -1,4 +1,4 @@
 
-## WHAT: Determining biosynthetic gene clusters from metagenomic DNA sequencing data.
+## Our goal: to determine biosynthetic gene clusters of plant-aiding bacteria from metagenomic DNA sequencing data.
 
 
