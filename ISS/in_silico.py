@@ -52,6 +52,7 @@ def complement(read):
 # write out the paired reads
 SeqIO.write(genome_soup, "ecoli_test.fastq", "fastq")
 
+#Steps to build an in-silico sequencer
 # 1. get large genome
 # 2. Get ngrams of length (insert length, which includes the actual insert as well as the front and back)
 # 3. Sample certain number of ngrams (normal? idk. Have to look into this)
