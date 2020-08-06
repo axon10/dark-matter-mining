@@ -6,24 +6,24 @@
 '''
  
 import pandas as pd 
+import numpy as np
 
-#drop any classifications without refseq for species-specificity
-species_only = pd.read_csv("CanolaClassificationTable.csv", index_col=0).dropna(subset=["species"])
-
+#drop any classifications lacking species annotation
+species_only = pd.read_csv("canola_taxonomy_classification.csv", index_col=0).dropna(subset=["species"])
 taxids = species_only.index
-species = species_only["species"]
 
+# drop irrelevant taxIDs, sort by abundance, drop NaNs
+abundance_profile = pd.read_csv("abundance_profile.csv", index_col=0)
+abundance_profile = abundance_profile[abundance_profile.index.isin(taxids)]
 
-abundance_profile = pd.read_csv("abundance_profile_fixed.csv", index_col=0)
 abundace_profile = abundance_profile.replace(np.nan, 0)
 abundance_profile['sum'] = abundance_profile.sum(axis=1)
+abundance_profile = abundance_profile.sort_values(by='sum', ascending = False)
 
-sorted_abundance_profile = abundance_profile.sort_values(by='sum', ascending = False)
+# add species annotations
+abundance_profile.insert(0,'species', species_only["species"])
 
-# add species annotations and select for certain taxIDs
-sorted_abundance_profile.insert(0,'species', species)
-sorted_abundance_profile = sorted_abundance_profile[sorted_abundance_profile.index.isin(taxids)]
 
-sorted_abundance_profile.to_csv("sorted_species_abundance.csv", index=True) 
+abundance_profile.to_csv("sorted_species_abundance.csv", index=True) 
 
 
