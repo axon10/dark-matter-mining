@@ -44,25 +44,28 @@ taxonomies["fixed_abundances"] = taxonomies["sum"]/taxonomies["sum"].sum() * 100
 
 assembly["filepath"]=assembly['ftp_path'].apply(lambda x: x.split("/")[-1]+"_genomic.gbff")
 
-"""
+
 # download the assembly
 for index, row in assembly.iterrows():
     filepath=row['ftp_path']
     filename=filepath.split("/")[-1]+"_genomic.gbff.gz"
 
-    if filename not in os.listdir(refseq_norman_PATH) and filename not in os.listdir("../refseq_genomes"):
-        cmd = "wget -P ./genomes/ "+filepath+"/"+filename
-        os.system("wget -P ./genomes/ "+filepath+"/"+filename)
+    if filename not in os.listdir(refseq_norman_PATH) and filename not in os.listdir("./refseq_genomes"):
+        if filename.replace('.gz', '') not in os.listdir("./refseq_genomes"):
+            cmd = "wget -P ./refseq_genomes/ "+filepath+"/"+filename
+            os.system(cmd)
+            print(cmd)
     else:
         #copy the ref genome from norman's path to mine
-        cmd = "cp " + refseq_norman_PATH + "/" + filename + " ./genomes/"
-        os.system("cp " + refseq_norman_PATH + "/" + filename + " ./genomes/")
+        cmd = "cp " + refseq_norman_PATH + "/" + filename + " ./refseq_genomes/"
+        os.system("cp " + refseq_norman_PATH + "/" + filename + " ./refseq_genomes/")
 assembly.to_csv("no_duplicates_assembly_ref.csv")
-taxonomies.to_csv("no_duplicates_taxonomy.csv") """
+taxonomies.to_csv("no_duplicates_taxonomy.csv") 
 
 print(assembly.columns)
 # keep only taxonomy ID and abundance
 taxonomies = taxonomies.iloc[:,[0,-1]]
+# keep only taxID, filepath
 assembly = assembly.iloc[:, [5,-1]]
 # Reindex using taxonomy ID and merge
 
